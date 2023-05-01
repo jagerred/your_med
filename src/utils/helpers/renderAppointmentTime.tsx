@@ -30,8 +30,10 @@ export const renderAppointmentTime = ({
   const fromTimeArray = scheduleStart.split(':');
   const toTimeArray = scheduleEnd.split(':');
 
+  const addTimezone = (time: number) => dayjs(time).add(3, 'hour').valueOf();
+
   const isActiveToday = dayjs().get('date').valueOf() === dayjs(day).get('date').valueOf();
-  const timeNow = dayjs().valueOf();
+  const timeNow = addTimezone(dayjs().valueOf());
 
   const sumDayTime = (hours: string, minutes: string) =>
     dayjs(day).set('hours', Number(hours)).set('minutes', Number(minutes)).valueOf();
@@ -42,15 +44,17 @@ export const renderAppointmentTime = ({
   const to = sumDayTime(toTimeArray[0], toTimeArray[1]);
 
   for (let currentTime = from; currentTime < to; currentTime = addPeriod(currentTime)) {
-    if (busyTime.includes(currentTime) || (isActiveToday && currentTime < timeNow)) continue;
+    const currentTimeWithTimezone = addTimezone(currentTime);
+    if (busyTime.includes(currentTimeWithTimezone) || (isActiveToday && currentTime < timeNow))
+      continue;
 
     const date = new Date(currentTime);
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
     appointmentTimeButtons.push(
-      <li className={cx('time')} key={doctorId + currentTime}>
-        <button onClick={() => onClick(currentTime)}>{`${checkZero(hours)}:${checkZero(
+      <li className={cx('time')} key={doctorId + currentTimeWithTimezone}>
+        <button onClick={() => onClick(currentTimeWithTimezone)}>{`${checkZero(hours)}:${checkZero(
           minutes
         )}`}</button>
       </li>

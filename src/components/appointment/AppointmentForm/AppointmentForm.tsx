@@ -16,7 +16,6 @@ import SuccessMessage from '../../shared/SuccessMessage/SuccessMessage';
 import Button from '../../UI/Button/Button';
 
 import styles from './AppointmentForm.module.scss';
-import dayjs from 'dayjs';
 
 interface AppointmentFormProps {
   time: number;
@@ -33,7 +32,7 @@ const AppointmentForm = ({ time, doctor, handleCancel }: AppointmentFormProps) =
   const { user } = useAppSelector(selectAuth);
   const router = useRouter();
   const { name, phone, photoUrl, price, uid: doctorId, tags } = doctor;
-  const appointmentTime = new Date(dayjs(time).add(3, 'hour').valueOf());
+  const appointmentTime = new Date(time);
 
   const preparedAppointment = {
     doctorId,
