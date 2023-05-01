@@ -11,13 +11,13 @@ interface GetMedcardRecordParams {
 
 export const getMedcardRecord = async ({ uid, sort }: GetMedcardRecordParams) => {
   const { data } = await axios(
-    `https://med-app-89f4.onrender.com/api/medRecord?uid=${uid}&&sort=${sort}`
+    `https://your-med.onrender.com/api/medRecord?uid=${uid}&&sort=${sort}`
   );
   return data;
 };
 
 export const deleteMedcardRecord = async (id: string) => {
-  const result = await axios.delete(`https://med-app-89f4.onrender.com/api/medRecord?id=${id}`);
+  const result = await axios.delete(`https://your-med.onrender.com/api/medRecord?id=${id}`);
   return result.data;
 };
 
@@ -28,5 +28,5 @@ export const deleteMedrecordImages = async (photos: string[]) => {
   });
 };
 export const addMedrecord = async (data: Medcard_Record) => {
-  await axios.post('https://med-app-89f4.onrender.com/api/medRecord', data);
+  await axios.post('https://your-med.onrender.com/api/medRecord', data);
 };
